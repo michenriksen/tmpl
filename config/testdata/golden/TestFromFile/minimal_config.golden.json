@@ -1,0 +1,23 @@
+{
+  "Session": {
+    "Name": "project",
+    "Path": "/Users/johndoe/project",
+    "OnWindow": "",
+    "OnPane": "",
+    "OnAny": "",
+    "Env": null,
+    "Windows": [
+      {
+        "Name": "test",
+        "Path": "/Users/johndoe/project",
+        "Command": "",
+        "Commands": null,
+        "Env": null,
+        "Panes": null,
+        "Active": false
+      }
+    ]
+  },
+  "Tmux": "",
+  "TmuxOptions": null
+}

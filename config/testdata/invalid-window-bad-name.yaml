@@ -1,0 +1,6 @@
+# Invalid configuration: Window names can only consist of alphanumeric and
+# underscores.
+---
+session:
+  windows:
+    - name: "Hello, World!"

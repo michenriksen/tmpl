@@ -1,0 +1,4 @@
+# Invalid configuration: Session specifies a path that does not exist.
+---
+session:
+  path: "/tmp/tmpl/test/invalid-session-path-notfound"

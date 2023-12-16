@@ -1,0 +1,226 @@
+# An annotated reference configuration showing all possible options.
+---
+## tmux executable.
+#
+# The tmux executable to use. Must be an absolute path, or available in $PATH.
+#
+# Default: "tmux"
+tmux: /usr/bin/other_tmux
+
+## tmux command line options.
+#
+# Additional tmux command line options to add to all tmux command invocations.
+#
+# Default: none.
+tmux_options: ["-L", "my_socket"]
+
+## Session configuration.
+#
+# Describes how the tmux session should be created.
+session:
+
+  ## Session name.
+  #
+  # Must only contain alphanumeric characters, underscores, and dashes.
+  #
+  # Default: current working directory base name.
+  name: "my_session"
+
+  ## Session path.
+  #
+  # The directory path used as the working directory for the session.
+  #
+  # The path is passed down to windows and panes but can be overridden at any
+  # level. If the path begins with '~', it will be automatically expanded to
+  # the current user's home directory.
+  #
+  # Default: current working directory.
+  path: "~/projects/my_project"
+
+  ## Session environment variables.
+  #
+  # Environment variables to automatically set up for the session.
+  #
+  # Environment variables are passed down to windows and panes, but can be
+  # overridden at any level.
+  #
+  # Default: none.
+  env:
+    APP_ENV: development
+    DEBUG: true
+    HTTP_PORT: 8080
+
+  ## On-window shell command.
+  #
+  # A shell command to run in every window after creation.
+  #
+  # This is intended for any kind of project setup that should be run before
+  # any other commands. The command is run using the `send-keys` tmux command.
+  #
+  # Default: none.
+  on_window: echo 'on_window'
+
+  ## On-pane shell command.
+  #
+  # A shell command to run in every pane after creation.
+  #
+  # This is intended for any kind of project setup that should be run before
+  # any other commands. The command is run using the `send-keys` tmux command.
+  #
+  # Default: none.
+  on_pane: echo 'on_pane'
+
+  ## On-window/pane shell command.
+  #
+  # A shell command to run in every window and pane after creation.
+  #
+  # This is intended for any kind of project setup that should be run before
+  # any other commands. The command is run using the `send-keys` tmux command.
+  #
+  # If on_window or on_pane commands are also specified, this command will run
+  # first.
+  #
+  # Default: none.
+  on_any: echo 'on_any'
+
+  ## Window configurations.
+  #
+  # A list of configurations for tmux windows to create in the session.
+  #
+  # The first configuration will be used for the default window created when
+  # the session is created.
+  #
+  # Default: A single window using tmux defaults.
+  windows:
+    ## Window name.
+    #
+    # Must only contain alphanumeric characters, underscores, and dashes.
+    #
+    # Default: tmux default window name.
+    - name: my_window
+
+      ## Window path.
+      #
+      # The directory path used as the working directory for the window.
+      #
+      # The path is passed down to panes but can be overridden. If the path
+      # begins with '~', it will be automatically expanded to the current
+      # user's home directory.
+      #
+      # Default: same as session.
+      path: "~/projects/my_project/subdir"
+
+      ## Window shell command.
+      #
+      # A shell command to run in the window after creation. Useful for
+      # starting your editor or a script you want to have running right away.
+      #
+      # Default: none.
+      command: echo 'my_window'
+
+      ## Window shell commands.
+      #
+      # A list of shell commands to run in the window in the order they are
+      # listed.
+      #
+      # Default: none.
+      commands:
+        - echo 'hello'
+        - echo 'from'
+        - echo 'my_window'
+
+      ## Window environment variables.
+      #
+      # Additional environment variables to automatically set up for the window.
+      #
+      # Environment variables are passed down to panes, but can be overridden.
+      #
+      # Default: same as session.
+      env:
+        APP_ENV: testing
+        WARP_CORE: true
+
+      ## Active window.
+      #
+      # Setting active to true will make it the active, selected window.
+      #
+      # If no windows are explicitly set as active, the first window will be
+      # selected
+      #
+      # Default: false
+      active: true
+
+      ## Pane configurations.
+      #
+      # A list of configurations for panes to create in the window.
+      #
+      # Default: none.
+      panes:
+        ## Pane path.
+        #
+        # The directory path used as the working directory for the pane.
+        #
+        # Default: same as window.
+        - path: "~/projects/my_project/other/subdir"
+
+          ## Pane environment variables.
+          #
+          # Additional environment variables to automatically set up for the
+          # pane.
+          #
+          # Default: same as window.
+          env:
+            WARP_CORE: false
+
+          ## Active pane.
+          #
+          # Setting active to true will make it the active, selected pane.
+          #
+          # If no panes are explicitly set as active, the first pane will be
+          # selected
+          #
+          # Default: false
+          active: true
+
+          ## Pane shell command.
+          #
+          # A shell command to run in the pane after creation. Useful for
+          # starting your editor or a script you want to have running right
+          # away.
+          #
+          # Default: none.
+          command: echo 'my_pane'
+
+          ## Pane shell commands.
+          #
+          # A list of shell commands to run in the pane in the order they are
+          # listed.
+          #
+          # Default: none.
+          commands:
+            - echo 'hello'
+            - echo 'from'
+            - echo 'my_pane'
+
+          ## Sub-pane configurations.
+          #
+          # A list of configurations for panes to create inside the pane.
+          #
+          # Nesting of panes can be as deep as you want, but you should probably
+          # stick to a sensible nesting level to keep it maintainable.
+          #
+          # Default: none.
+          panes:
+            - path: "~/projects/my_project/other/subdir"
+              env:
+                WARP_CORE: true
+              active: true
+              command: echo 'my_sub_pane'
+              commands:
+                - echo 'hello'
+                - echo 'from'
+                - echo 'sub_pane'
+
+## These lines configure editors to be more helpful (optional)
+# yaml-language-server: $schema=https://raw.githubusercontent.com/michenriksen/tmpl/main/config.schema.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj

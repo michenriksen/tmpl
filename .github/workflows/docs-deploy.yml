@@ -1,0 +1,78 @@
+---
+name: docs:deploy
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**/*"
+      - "mkdocs.yml"
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: true
+    container:
+      image: node:20-alpine
+      env:
+        TERM: xterm-256color
+    steps:
+      - name: Install dependencies
+        run: |
+          apk add --no-cache bash wget ncurses
+          npm install -g markdownlint-cli
+          wget https://github.com/errata-ai/vale/releases/download/v2.30.0/vale_2.30.0_Linux_64-bit.tar.gz
+          tar -xvzf vale_2.30.0_Linux_64-bit.tar.gz -C /usr/local/bin
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Vale sync
+        run: vale sync
+      - name: Lint
+        run: ./scripts/lint-docs.sh
+
+  deploy:
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: true
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Python
+        uses: actions/setup-python@v5
+      - name: Set up build cache
+        uses: actions/cache/restore@v3
+        with:
+          key: mkdocs-tmpl-${{ hashfiles('.cache/**') }}
+          path: .cache
+          restore-keys: mkdocs-tmpl-
+      - name: Install Python dependencies
+        run: |
+          pip install mkdocs-material mkdocs-markdownextradata-plugin
+      - name: Build documentation
+        run: mkdocs build --clean
+      - name: Fix permissions
+        run: |
+          chmod -c -R +rX "site/" | while read -r line; do
+            echo "::warning title=Invalid file permissions automatically fixed::$line"
+          done
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: site
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v3
+      - name: Save build cache
+        uses: actions/cache/save@v3
+        with:
+          key: mkdocs-tmpl-${{ hashfiles('.cache/**') }}
+          path: .cache

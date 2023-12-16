@@ -1,0 +1,39 @@
+{
+  "list-sessions -F session_id:#{session_id},session_name:#{session_name},session_path:#{session_path}": {
+    "output": "session_id:$0,session_name:main,session_path:$HOME"
+  },
+  "new-session -d -P -F session_id:#{session_id},session_name:#{session_name},session_path:#{session_path} -s tmpl_test_session": {
+    "output": "session_id:$1,session_name:tmpl_test_session,session_path:$HOME/project"
+  },
+  "send-keys -t tmpl_test_session:code ~/project/scripts/boostrap.sh C-m": {},
+  "send-keys -t tmpl_test_session:code echo 'on_window' C-m": {},
+  "send-keys -t tmpl_test_session:code nvim . C-m": {},
+  "new-window -P -F window_id:#{window_id},window_name:#{window_name},window_path:#{window_path},window_index:#{window_index},window_width:#{window_width},window_height:#{window_height} -k -t tmpl_test_session:^ -n code -c $HOME/project": {
+    "output": "window_id:@2,window_name:code,window_path:$HOME/project/cmd,window_index:1,window_width:80,window_height:24"
+  },
+  "split-window -d -P -F pane_id:#{pane_id},pane_path:#{pane_path},pane_index:#{pane_index},pane_width:#{pane_width},pane_height:#{pane_height} -t tmpl_test_session:code -e APP_ENV=testing -c $HOME/project -h": {
+    "output": "pane_id:%3,pane_path:$HOME/project/cmd,pane_index:1,pane_width:80,pane_height:12"
+  },
+  "send-keys -t tmpl_test_session:code.1 ~/project/scripts/boostrap.sh C-m": {},
+  "send-keys -t tmpl_test_session:code.1 echo 'on_pane' C-m": {},
+  "send-keys -t tmpl_test_session:code.1 ./scripts/autorun-tests.sh C-m": {},
+  "new-window -P -F window_id:#{window_id},window_name:#{window_name},window_path:#{window_path},window_index:#{window_index},window_width:#{window_width},window_height:#{window_height} -t tmpl_test_session: -e APP_ENV=development -e PORT=8080 -n server -c $HOME/project/cmd": {
+    "output": "window_id:@3,window_name:server,window_path:$HOME/project/cmd,window_index:2,window_width:80,window_height:24"
+  },
+  "send-keys -t tmpl_test_session:server ~/project/scripts/boostrap.sh C-m": {},
+  "send-keys -t tmpl_test_session:server echo 'on_window' C-m": {},
+  "send-keys -t tmpl_test_session:server ./server C-m": {},
+  "new-window -P -F window_id:#{window_id},window_name:#{window_name},window_path:#{window_path},window_index:#{window_index},window_width:#{window_width},window_height:#{window_height} -t tmpl_test_session: -n prod_logs -c $HOME/project": {
+    "output": "window_id:@4,window_name:prod_logs,window_path:$HOME/project,window_index:3,window_width:80,window_height:24"
+  },
+  "send-keys -t tmpl_test_session:prod_logs ~/project/scripts/boostrap.sh C-m": {},
+  "send-keys -t tmpl_test_session:prod_logs echo 'on_window' C-m": {},
+  "send-keys -t tmpl_test_session:prod_logs ssh user@host C-m": {},
+  "send-keys -t tmpl_test_session:prod_logs cd /var/logs C-m": {},
+  "send-keys -t tmpl_test_session:prod_logs tail -f app.log C-m": {},
+  "select-window -t tmpl_test_session:code": {},
+  "show-option -gqv pane-base-index": {
+    "output": "0"
+  },
+  "select-pane -t tmpl_test_session:code.0": {}
+}

@@ -1,0 +1,4 @@
+[
+  "time=0001-01-01T00:00:00.000Z level=DEBUG msg=\"command successful\" name=tmpl_test_tmux args=\"[new-session -d -s test]\" output=\"\" dur=0s",
+  ""
+]

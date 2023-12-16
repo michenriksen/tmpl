@@ -1,0 +1,27 @@
+---
+session:
+  name: my-project
+
+  env:
+    APP_ENV: development
+    DEBUG: true
+
+  windows:
+
+    # main window running Neovim with a horizontal bottom pane with 20% height,
+    # running tests.
+    - name: code
+      command: nvim .
+      panes:
+        - command: scripts/autorun-tests.sh
+          size: 20%
+          horizontal: true
+          env:
+            APP_ENV: testing
+
+    # secondary window for arbitrary use.
+    - name: shell
+
+## These lines configure editors to be more helpful (optional)
+# yaml-language-server: $schema=https://github.com/michenriksen/tmpl/blob/main/config.schema.json
+# vim: ft=yaml syn=yaml ts=2 sts=2 sw=2 et

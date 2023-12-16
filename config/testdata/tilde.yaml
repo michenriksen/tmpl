@@ -1,0 +1,8 @@
+---
+session:
+  name: "tmpl_test"
+  path: "~/project"
+  windows:
+    - path: "~/project/subdir"
+      panes:
+        - path: "~/project/subdir/subdir2"

@@ -1,0 +1,6 @@
+# yamllint disable-file
+# This file has an intentional syntax error for testing purposes.
+---
+session:
+  name: "invalid"
+    path: "/home/user"

@@ -1,0 +1,26 @@
+---
+session:
+  name: "tmpl_test_session"
+  path: "~/project"
+  on_any: "~/project/scripts/boostrap.sh"
+  on_window: "echo 'on_window'"
+  on_pane: "echo 'on_pane'"
+  windows:
+    - name: "code"
+      command: "nvim ."
+      panes:
+        - command: "./scripts/autorun-tests.sh"
+          horizontal: true
+          env:
+            APP_ENV: "testing"
+    - name: "server"
+      path: "~/project/cmd"
+      command: "./server"
+      env:
+        APP_ENV: "development"
+        PORT: "8080"
+    - name: "prod_logs"
+      commands:
+        - "ssh user@host"
+        - "cd /var/logs"
+        - "tail -f app.log"

@@ -1,0 +1,6 @@
+[
+  "00:00:00 INF configuration file loaded path=/stabilized/path/.tmpl.invalid.yaml",
+  "00:00:00 ERR configuration file is invalid errors=1",
+  "00:00:00 WRN session.windows.0.env \"invalid_session_name\" is not a valid environment variable name field=session.windows.0.env",
+  ""
+]

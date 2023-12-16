@@ -1,0 +1,7 @@
+[
+  "00:00:00 INF configuration file loaded path=/stabilized/path/tmpl.yaml",
+  "00:00:00 INF session created session=my_project mock=true",
+  "00:00:00 DBG session closed session=my_project mock=true",
+  "00:00:00 ERR applying configuration: applying window configuration: applying window my_project:code: running new-window command: exit status 1",
+  ""
+]

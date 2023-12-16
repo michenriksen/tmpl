@@ -1,0 +1,17 @@
+(?i)JSON
+APT
+DNF
+DTDesign
+Gatekeeper
+Homebrew
+MIT
+Neovim
+Noun Project
+Pacman
+Portage
+[Tt]mpl
+fd
+fzf
+repo_url
+tmux
+unicity

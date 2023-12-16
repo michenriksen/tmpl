@@ -1,0 +1,6 @@
+# Invalid configuration: Specified tmux executable does not exist.
+---
+tmux: "/usr/local/bin/tmpl-test-tmux-not-exist"
+session:
+  windows:
+    - name: "window"

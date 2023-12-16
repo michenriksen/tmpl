@@ -1,0 +1,18 @@
+(?i)blacklist(ed|s|ing)?
+(?i)bugreport
+(?i)clearly
+(?i)crazy
+(?i)disabled?
+(?i)dumb
+(?i)dummy
+(?i)everyone knows
+(?i)insane(ly)?
+(?i)lame
+(?i)masters?
+(?i)obvious(ly)?
+(?i)of course
+(?i)sane
+(?i)sanity
+(?i)simply
+(?i)slaves?
+(?i)whitelist(ed|s|ing)?

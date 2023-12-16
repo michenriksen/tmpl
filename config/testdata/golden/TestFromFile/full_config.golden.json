@@ -1,0 +1,79 @@
+{
+  "Session": {
+    "Name": "tmpl_test",
+    "Path": "/Users/johndoe/project",
+    "OnWindow": "",
+    "OnPane": "",
+    "OnAny": "",
+    "Env": {
+      "TMPL_TEST_SESS_ENV": "true"
+    },
+    "Windows": [
+      {
+        "Name": "tmpl_test_window_1",
+        "Path": "/Users/johndoe/project",
+        "Command": "echo 'window 1'",
+        "Commands": null,
+        "Env": {
+          "TMPL_TEST_WIN_1_ENV": "true"
+        },
+        "Panes": [
+          {
+            "Env": null,
+            "Path": "/Users/johndoe/project",
+            "Command": "echo 'window 1 pane 1'",
+            "Commands": null,
+            "Size": "20%",
+            "Horizontal": true,
+            "Panes": null,
+            "Active": false
+          }
+        ],
+        "Active": false
+      },
+      {
+        "Name": "tmpl_test_window_2",
+        "Path": "/Users/johndoe/project/subdir",
+        "Command": "echo 'window 2'",
+        "Commands": null,
+        "Env": {
+          "TMPL_TEST_SESS_ENV": "overwrite",
+          "TMPL_TEST_WIN_2_ENV": "true"
+        },
+        "Panes": [
+          {
+            "Env": {
+              "TMPL_TEST_WIN_2": "overwrite",
+              "TMPL_TEST_WIN_2_PANE_1": "true"
+            },
+            "Path": "/Users/johndoe/project/subdir/subdir2",
+            "Command": "",
+            "Commands": null,
+            "Size": "",
+            "Horizontal": true,
+            "Panes": null,
+            "Active": false
+          },
+          {
+            "Env": {
+              "TMPL_TEST_SESS_ENV": "overwrite"
+            },
+            "Path": "/Users/johndoe/project/subdir",
+            "Command": "",
+            "Commands": null,
+            "Size": "",
+            "Horizontal": false,
+            "Panes": null,
+            "Active": false
+          }
+        ],
+        "Active": false
+      }
+    ]
+  },
+  "Tmux": "/usr/bin/other_tmux",
+  "TmuxOptions": [
+    "-f",
+    "/Users/johndoe/other_tmux.conf"
+  ]
+}

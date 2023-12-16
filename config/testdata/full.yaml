@@ -1,0 +1,32 @@
+---
+tmux: "/usr/bin/other_tmux"
+tmux_options: ["-f", "/Users/johndoe/other_tmux.conf"]
+session:
+  name: "tmpl_test"
+  path: "/Users/johndoe/project"
+  env:
+    TMPL_TEST_SESS_ENV: "true"
+  windows:
+    - name: "tmpl_test_window_1"
+      command: "echo 'window 1'"
+      env:
+        TMPL_TEST_WIN_1_ENV: "true"
+      panes:
+        - command: "echo 'window 1 pane 1'"
+          horizontal: true
+          size: "20%"
+
+    - name: "tmpl_test_window_2"
+      path: "/Users/johndoe/project/subdir"
+      command: "echo 'window 2'"
+      env:
+        TMPL_TEST_SESS_ENV: "overwrite"
+        TMPL_TEST_WIN_2_ENV: "true"
+      panes:
+        - path: "/Users/johndoe/project/subdir/subdir2"
+          horizontal: true
+          env:
+            TMPL_TEST_WIN_2_PANE_1: "true"
+            TMPL_TEST_WIN_2: "overwrite"
+        - env:
+            TMPL_TEST_SESS_ENV: "overwrite"

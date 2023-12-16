@@ -1,0 +1,8 @@
+# Invalid configuration: Environment variables must only contain uppercase
+# alphanumeric and underscores.
+---
+session:
+  windows:
+    - panes:
+        - env:
+            INVALID-SESSION-NAME: "true"

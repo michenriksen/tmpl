@@ -1,0 +1,39 @@
+---
+name: yaml:verify
+permissions:
+  contents: read
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**/*.yml"
+      - "**/*.yaml"
+      - ".yamllint"
+  pull_request:
+    branches: [main]
+    paths:
+      - "**/*.yml"
+      - "**/*.yaml"
+      - ".yamllint"
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    name: verify
+    runs-on: ubuntu-latest
+    container:
+      image: pipelinecomponents/yamllint:amd64-0.29.0
+      env:
+        TERM: xterm-256color
+    timeout-minutes: 5
+    strategy:
+      fail-fast: true
+    steps:
+      - name: Install dependencies
+        run: apk add --no-cache bash ncurses
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Lint
+        run: ./scripts/lint-yaml.sh

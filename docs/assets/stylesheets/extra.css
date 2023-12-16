@@ -1,0 +1,68 @@
+/* Atkinson Hyperlegible font: https://brailleinstitute.org/freefont. */
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src:
+    url("../fonts/Atkinson-Hyperlegible-Regular-102a.woff2") format("woff2"),
+    url("../fonts/Atkinson-Hyperlegible-Regular-102.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src:
+    url("../fonts/Atkinson-Hyperlegible-Bold-102a.woff2") format("woff2"),
+    url("../fonts/Atkinson-Hyperlegible-Bold-102.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src:
+    url("../fonts/Atkinson-Hyperlegible-Italic-102a.woff2") format("woff2"),
+    url("../fonts/Atkinson-Hyperlegible-Italic-102.woff") format("woff");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src:
+    url("../fonts/Atkinson-Hyperlegible-BoldItalic-102a.woff2") format("woff2"),
+    url("../fonts/Atkinson-Hyperlegible-BoldItalic-102.woff") format("woff");
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --md-text-font: "Atkinson Hyperlegible", sans-serif;
+  --md-code-font: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+}
+
+.md-typeset video {
+  border-radius: 5px;
+}
+
+.next-cta {
+  margin-top: 3rem;
+  text-align: right;
+}
+
+.footer-banner {
+  width: 200px;
+  display: block;
+  margin: auto .6rem;
+  padding: .7rem 0 .4rem 0;
+}
+
+.footer-banner svg {
+  width: 100%;
+  height: auto;
+  fill: var(--md-footer-fg-color--light);
+  stroke: 0;
+}

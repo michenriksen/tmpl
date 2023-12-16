@@ -1,0 +1,7 @@
+# Invalid configuration: Pane specifies a path that does not exist.
+---
+session:
+  windows:
+    - name: "window"
+      panes:
+        - path: "/tmp/tmpl/test/invalid-pane-path-notfound"

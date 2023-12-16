@@ -1,0 +1,54 @@
+---
+name: go:verify
+permissions:
+  contents: read
+on:
+  push:
+    branches: [main]
+    paths:
+      - "go.mod"
+      - "**/*.go"
+  pull_request:
+    branches: [main]
+    paths:
+      - "go.mod"
+      - "**/*.go"
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  TERM: xterm-256color
+jobs:
+  verify:
+    name: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: true
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Install Go
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: "go.mod"
+          cache-dependency-path: "go.sum"
+          go-version: "1.21.4"
+      - name: Vet
+        run: go vet ./...
+      - name: Tidy
+        run: |
+          go mod tidy
+          if ! git diff --exit-code --quiet; then
+            echo "go mod is not tidy"
+            exit 1
+          fi
+      - name: Verify dependencies
+        run: go mod verify
+      - name: Test
+        run: ./scripts/test.sh
+      - name: Lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.54

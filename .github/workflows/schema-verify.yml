@@ -1,0 +1,41 @@
+---
+name: schema:verify
+permissions:
+  contents: read
+on:
+  push:
+    branches: [main]
+    paths:
+      - "config.schema.json"
+      - ".tmpl.reference.yaml"
+      - ".tmpl.example.yaml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "config.schema.json"
+      - ".tmpl.reference.yaml"
+      - ".tmpl.example.yaml"
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  TERM: xterm-256color
+jobs:
+  verify:
+    name: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: true
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Install Go
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: "go.mod"
+          cache-dependency-path: "go.sum"
+          go-version: "1.21.4"
+      - name: Lint
+        run: ./scripts/lint-schema.sh

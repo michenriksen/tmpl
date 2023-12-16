@@ -1,0 +1,98 @@
+---
+site_name: tmpl documentation
+site_url: https://michenriksen.com/tmpl/
+site_author: Michael Henriksen
+site_description: >-
+  Streamline tmux session creation with simple configuration files for launching your workflow with all your tools set
+  up and ready to go.
+
+repo_name: michenriksen/tmpl
+repo_url: https://github.com/michenriksen/tmpl
+
+copyright: Copyright &copy; 2023 Michael Henriksen
+
+nav:
+  - Home:
+      - index.md
+      - Getting started: getting-started.md
+      - Configuration reference: reference.md
+  - Getting started:
+      - Installation: getting-started.md
+      - Configuring your session: configuration.md
+      - Launching your session: usage.md
+      - Recipes:
+          - Project launcher: recipes/project-launcher.md
+      - Other:
+          - Attribution: attribution.md
+          - License: license.md
+  - Configuration reference:
+      - .tmpl.yaml reference: reference.md
+      - JSON schema: schema-reference.md
+
+theme:
+  name: material
+  logo: assets/logo.svg
+  features:
+    - navigation.expand
+    - navigation.indexes
+    - navigation.sections
+    - navigation.tabs
+    - navigation.top
+
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - scheme: slate
+      primary: black
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+    - scheme: default
+      primary: black
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+  font: false
+  custom_dir: docs/overrides
+
+extra_css:
+  - assets/stylesheets/extra.css
+
+extra:
+  package: github.com/michenriksen/tmpl
+  repo_url: https://github.com/michenriksen/tmpl
+  social:
+    - stub  # To trigger social partial rendering.
+
+plugins:
+  - search
+  - markdownextradata: {}
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      title: On this page
+      permalink: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.mark
+  - pymdownx.details
+  - pymdownx.highlight:
+      use_pygments: true
+      pygments_lang_class: true
+      auto_title: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      base_path: ['LICENSE', 'docs']
+      check_paths: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg

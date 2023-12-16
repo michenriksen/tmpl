@@ -1,0 +1,33 @@
+---
+session:
+  name: my_project
+  path: ~/project
+  on_any: ~/project/scripts/bootstrap.sh
+  on_window: echo 'on_window'
+  on_pane: echo 'on_pane'
+  env:
+    APP_ENV: development
+    DEBUG: true
+  windows:
+    - name: code
+      command: nvim .
+      active: true
+      panes:
+        - command: ./autorun-tests.sh
+          path: ~/project/scripts
+          horizontal: true
+          size: 20%
+          env:
+            APP_ENV: test
+    - name: shell
+      command: git status
+    - name: server
+      path: ~/project/scripts
+      command: ./run-dev-server.sh
+      env:
+        HTTP_PORT: 8080
+    - name: prod_logs
+      commands:
+        - ssh user@host
+        - cd /var/logs
+        - tail -f app.log

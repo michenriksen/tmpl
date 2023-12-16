@@ -1,0 +1,5 @@
+# Invalid configuration: Window specifies a path that does not exist.
+---
+session:
+  windows:
+    - path: "/tmp/tmpl/test/invalid-window-path-notfound"

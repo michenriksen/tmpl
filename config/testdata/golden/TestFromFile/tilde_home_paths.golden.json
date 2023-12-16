@@ -1,0 +1,34 @@
+{
+  "Session": {
+    "Name": "tmpl_test",
+    "Path": "/Users/johndoe/project",
+    "OnWindow": "",
+    "OnPane": "",
+    "OnAny": "",
+    "Env": null,
+    "Windows": [
+      {
+        "Name": "",
+        "Path": "/Users/johndoe/project/subdir",
+        "Command": "",
+        "Commands": null,
+        "Env": null,
+        "Panes": [
+          {
+            "Env": null,
+            "Path": "/Users/johndoe/project/subdir/subdir2",
+            "Command": "",
+            "Commands": null,
+            "Size": "",
+            "Horizontal": false,
+            "Panes": null,
+            "Active": false
+          }
+        ],
+        "Active": false
+      }
+    ]
+  },
+  "Tmux": "",
+  "TmuxOptions": null
+}

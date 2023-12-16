@@ -1,0 +1,235 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/michenriksen/tmpl/config.schema.json",
+  "title": "Tmpl configuration",
+  "description": "A configuration file describing how a tmux session should be created.",
+  "version": "0.1.0",
+  "author": "Michael Henriksen",
+  "type": "object",
+  "$defs": {
+    "name": {
+      "title": "Name",
+      "description": "A name for the tmux session or window. Must only contain alphanumeric characters, underscores, dots, and dashes",
+      "type": "string",
+      "pattern": "^[\\w._-]+$"
+    },
+    "path": {
+      "title": "Path",
+      "description": "The directory path used as the working directory in a tmux session, window, or pane.\n\nThe paths are passed down from session to window to pane and can be customized at any level. If a path begins with '~', it will be automatically expanded to the current user's home directory.",
+      "type": "string",
+      "examples": [
+        "/path/to/project",
+        "~/path/to/project",
+        "relative/path/to/project"
+      ]
+    },
+    "command": {
+      "title": "Shell command",
+      "description": "A shell command to run within a tmux window or pane.\n\nThe 'send-keys' tmux command is used to simulate the key presses. This means it can be used even when connected to a remote system via SSH or a similar connection.",
+      "type": "string",
+      "minLength": 1
+    },
+    "commands": {
+      "title": "Shell commands",
+      "description": "A list of shell commands to run within a tmux window or pane in the order they are listed.\n\nIf a command is also specified in the 'command' property, it will be run first.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/command"
+      },
+      "examples": [
+        [
+          "ssh user@host",
+          "cd /var/logs",
+          "tail -f app.log"
+        ]
+      ]
+    },
+    "env": {
+      "title": "Environment variables",
+      "description": "A list of environment variables to set in a tmux session, window, or pane.\n\nThese variables are passed down from the session to the window and can be customized at any level. Please note that variable names should consist of uppercase alphanumeric characters and underscores.",
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[A-Z_][A-Z0-9_]+$"
+      },
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "boolean"
+        ]
+      },
+      "examples": [
+        {
+          "APP_ENV": "development",
+          "DEBUG": true,
+          "HTTP_PORT": 8080
+        }
+      ]
+    },
+    "active": {
+      "title": "Active",
+      "description": "Whether a tmux window or pane should be selected after session creation. The first window and pane will be selected by default.",
+      "type": "boolean",
+      "default": false
+    },
+    "SessionConfig": {
+      "title": "Session configuration",
+      "description": "Session configuration describing how a tmux session should be created.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/name",
+          "default": "The current working directory base name."
+        },
+        "path": {
+          "$ref": "#/$defs/path",
+          "default": "The current working directory."
+        },
+        "env": {
+          "$ref": "#/$defs/env"
+        },
+        "on_window": {
+          "$ref": "#/$defs/command",
+          "title": "On-Window shell command",
+          "description": "A shell command to run first in all created windows. This is intended for any kind of project setup that should be run before any other commands. The command is run using the `send-keys` tmux command."
+        },
+        "on_pane": {
+          "$ref": "#/$defs/command",
+          "title": "On-Pane shell command",
+          "description": "A shell command to run first in all created panes. This is intended for any kind of project setup that should be run before any other commands. The command is run using the `send-keys` tmux command."
+        },
+        "on_any": {
+          "$ref": "#/$defs/command",
+          "title": "On-Window/Pane shell command",
+          "description": "A shell command to run first in all created windows and panes. This is intended for any kind of project setup that should be run before any other commands. The command is run using the `send-keys` tmux command."
+        },
+        "windows": {
+          "title": "Window configurations",
+          "description": "A list of tmux window configurations to create in the session. The first configuration will be used for the default window.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WindowConfig"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "WindowConfig": {
+      "title": "Window configuration",
+      "description": "Window configuration describing how a tmux window should be created.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/name",
+          "default": "tmux default"
+        },
+        "path": {
+          "$ref": "#/$defs/path",
+          "default": "The session path."
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "commands": {
+          "$ref": "#/$defs/commands"
+        },
+        "env": {
+          "$ref": "#/$defs/env",
+          "default": "The session env."
+        },
+        "active": {
+          "$ref": "#/$defs/active"
+        },
+        "panes": {
+          "title": "Pane configurations",
+          "description": "A list of tmux pane configurations to create in the window.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PaneConfig"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "PaneConfig": {
+      "title": "Pane configuration",
+      "description": "Pane configuration describing how a tmux pane should be created.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/path",
+          "default": "The window path."
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "commands": {
+          "$ref": "#/$defs/commands"
+        },
+        "env": {
+          "$ref": "#/$defs/env",
+          "default": "The window env."
+        },
+        "active": {
+          "$ref": "#/$defs/active"
+        },
+        "horizontal": {
+          "title": "Horizontal split",
+          "description": "Whether to split the window horizontally. If false, the window will be split vertically.",
+          "type": "boolean",
+          "default": false
+        },
+        "size": {
+          "title": "Size",
+          "description": "The size of the pane in lines for horizontal panes, or columns for vertical panes. The size can also be specified as a percentage of the available space.",
+          "type": "string",
+          "examples": [
+            "20%",
+            "50",
+            "215"
+          ]
+        },
+        "panes": {
+          "title": "Pane configurations",
+          "description": "A list of tmux pane configurations to create in the pane.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PaneConfig"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "tmux": {
+      "title": "tmux executable",
+      "description": "The tmux executable to use. Must be an absolute path, or available in $PATH.",
+      "type": "string",
+      "default": "tmux"
+    },
+    "tmux_options": {
+      "title": "tmux command line options",
+      "description": "Additional tmux command line options to add to all tmux command invocations.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "A tmux command line flag and its value, if any. See `man tmux` for available options."
+      },
+      "examples": [
+        [
+          "-f",
+          "/path/to/tmux.conf"
+        ],
+        [
+          "-L",
+          "MySocket"
+        ]
+      ]
+    },
+    "session": {
+      "$ref": "#/$defs/SessionConfig"
+    }
+  },
+  "additionalProperties": false
+}

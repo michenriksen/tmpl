@@ -1,0 +1,5 @@
+[
+  "00:00:00 INF configuration file loaded path=/stabilized/path/tmpl.yaml",
+  "00:00:00 ERR applying configuration: applying session my_project: running new-session command: exit status 1",
+  ""
+]

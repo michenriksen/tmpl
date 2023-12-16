@@ -1,0 +1,9 @@
+---
+blank_issues_enabled: false
+contact_links:
+  - name: 🛟 Help & Support
+    url: https://github.com/michenriksen/tmpl/discussions/categories/q-a
+    about: Please ask and answer questions here.
+  - name: 💡 Feature Requests & Ideas
+    url: https://github.com/michenriksen/tmpl/discussions/categories/ideas
+    about: Please add feature requests and ideas here.

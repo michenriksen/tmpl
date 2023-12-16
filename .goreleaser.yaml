@@ -1,0 +1,75 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj
+---
+version: 1
+project_name: tmpl
+report_sizes: true
+
+metadata:
+  mod_timestamp: "{{ .CommitTimestamp }}"
+
+before:
+  hooks:
+    - go mod tidy
+    - ./scripts/test.sh
+
+builds:
+  - id: tmpl
+    main: ./cmd/tmpl
+    binary: tmpl
+    flags:
+      - "-trimpath"
+    asmflags:
+      - "-D mysymbol"
+      - "all=-trimpath={{.Env.GOPATH}}"
+    ldflags:
+      - "-s -w"
+      - "-X github.com/michenriksen/tmpl/internal/cli.buildVersion={{ .Version }}"
+      - "-X github.com/michenriksen/tmpl/internal/cli.buildCommit={{ .Commit }}"
+      - "-X github.com/michenriksen/tmpl/internal/cli.buildTime={{ .Date }}"
+      - "-X github.com/michenriksen/tmpl/internal/cli.buildGoVersion={{ .Env.GO_VERSION }}"
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - "386"
+      - amd64
+      - arm64
+    mod_timestamp: "{{ .CommitTimestamp }}"
+
+archives:
+  - format: tar.gz
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    files:
+      - README.md
+      - LICENSE
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  filters:
+    include:
+      - "^feat[(:]"
+      - "^fix[(:]"
+      - "^build[(:]"
+
+release:
+  draft: true
+  replace_existing_draft: true
+  discussion_category_name: General
+  footer: |
+    ## macOS Gatekeeper
+
+    macOS may prevent you from running the binary due to the built-in security
+    feature called Gatekeeper. You can find instructions on how to
+    [allow the binary here](https://michenriksen.com/tmpl/macos-gatekeeper/).

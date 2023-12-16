@@ -1,0 +1,35 @@
+# {{ .AppName }} v{{ .Version}} configuration generated {{ .Time.Format "02 Jan 2006" }}.
+# For more information, visit {{ .DocsURL }}
+---
+session:
+  name: {{.Name}}
+
+  ## Uncomment below to run an initial command in windows/panes on creation.
+  # on_window: echo 'on_window'
+  # on_pane: echo 'on_panel'
+  # on_any: echo 'on_any'
+
+  ## Uncomment below to set any additional environment variables.
+  # env:
+  #  APP_ENV: development
+  #  PORT: 8080
+
+  windows:
+    - name: main
+
+    ## Uncomment below to run a shell command in the window on creation.
+    # command: echo 'main window'
+
+    ## Uncomment below to run multiple shell commands in the window.
+    # commands:
+    #   - ssh user@host
+    #   - cd /var/logs
+    #   - tail -f app.log
+
+    ## Uncomment below to add window panes.
+    # panes:
+    #   - command: echo 'pane'
+
+## These lines configure editors to be more helpful (optional)
+# yaml-language-server: $schema=https://raw.githubusercontent.com/michenriksen/tmpl/main/config.schema.json
+# vim: ft=yaml syn=yaml ts=2 sts=2 sw=2 et

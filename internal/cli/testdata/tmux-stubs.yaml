@@ -1,0 +1,118 @@
+# This file contains tmux command arguments expected to be given to the tmux
+# runner, with optional stub command output to be returned on match.
+#
+# yamllint disable rule:line-length
+---
+ListSessions:
+  args: &ListSessionArgs ["list-sessions", "-F", "session_id:#{session_id},session_name:#{session_name},session_path:#{session_path}"]
+  output: |-
+    session_id:$0,session_name:main,session_path:/home/user
+    session_id:$1,session_name:other,session_path:/home/user/other
+    session_id:$2,session_name:prod,session_path:/home/user
+
+ListSessionsExists:
+  args: *ListSessionArgs
+  output: |-
+    session_id:$0,session_name:main,session_path:/home/user
+    session_id:$1,session_name:my_project,session_path:/home/user/project
+    session_id:$2,session_name:prod,session_path:/home/user
+
+NewSession:
+  args: ["new-session", "-d", "-P", "-F", "session_id:#{session_id},session_name:#{session_name},session_path:#{session_path}", "-s", "my_project"]
+  output: |-
+    session_id:$3,session_name:my_project,session_path:/home/user/project
+
+NewWindowCode:
+  args: ["new-window", "-P", "-F", "window_id:#{window_id},window_name:#{window_name},window_path:#{window_path},window_index:#{window_index},window_width:#{window_width},window_height:#{window_height}", "-k", "-t", "my_project:^", "-e", "APP_ENV=development", "-e", "DEBUG=true", "-n", "code", "-c", "/tmp/path"]
+  output: |-
+    window_id:@5,window_name:code,window_path:/home/user/project,window_index:1,window_width:80,window_height:24
+
+NewWindowShell:
+  args: ["new-window", "-P", "-F", "window_id:#{window_id},window_name:#{window_name},window_path:#{window_path},window_index:#{window_index},window_width:#{window_width},window_height:#{window_height}", "-t", "my_project:", "-e", "APP_ENV=development", "-e", "DEBUG=true", "-n", "shell", "-c", "/tmp/path"]
+  output: |-
+    window_id:@6,window_name:shell,window_path:/home/user/project/scripts,window_index:2,window_width:80,window_height:24
+
+NewWindowServer:
+  args: ["new-window", "-P", "-F", "window_id:#{window_id},window_name:#{window_name},window_path:#{window_path},window_index:#{window_index},window_width:#{window_width},window_height:#{window_height}", "-t", "my_project:", "-e", "APP_ENV=development", "-e", "DEBUG=true", "-e", "HTTP_PORT=8080", "-n", "server", "-c", "/tmp/path"]
+  output: |-
+    window_id:@7,window_name:server,window_path:/home/user/project/scripts,window_index:3,window_width:80,window_height:24
+
+NewWindowProdLogs:
+  args: ["new-window", "-P", "-F", "window_id:#{window_id},window_name:#{window_name},window_path:#{window_path},window_index:#{window_index},window_width:#{window_width},window_height:#{window_height}", "-t", "my_project:", "-e", "APP_ENV=development", "-e", "DEBUG=true", "-n", "prod_logs", "-c", "/tmp/path"]
+  output: |-
+    window_id:@8,window_name:prod_logs,window_path:/home/user/project,window_index:4,window_width:80,window_height:24
+
+NewPaneCode:
+  args: ["split-window", "-d", "-P", "-F", "pane_id:#{pane_id},pane_path:#{pane_path},pane_index:#{pane_index},pane_width:#{pane_width},pane_height:#{pane_height}", "-t", "my_project:code", "-e", "APP_ENV=test", "-e", "DEBUG=true", "-c", "/tmp/path", "-l", "20%", "-h"]
+  output: |-
+    pane_id:@4,pane_path:/home/user/project,pane_index:1,pane_width:80,pane_height:5
+
+SendKeysCodeOnAny:
+  args: ["send-keys", "-t", "my_project:code", "~/project/scripts/bootstrap.sh", "C-m"]
+
+SendKeysCodeOnWindow:
+  args: ["send-keys", "-t", "my_project:code", "echo 'on_window'", "C-m"]
+
+SendKeysCode:
+  args: ["send-keys", "-t", "my_project:code", "nvim .", "C-m"]
+
+SendKeysCodePaneOnAny:
+  args: ["send-keys", "-t", "my_project:code.1", "~/project/scripts/bootstrap.sh", "C-m"]
+
+SendKeysCodePaneOnPane:
+  args: ["send-keys", "-t", "my_project:code.1", "echo 'on_pane'", "C-m"]
+
+SendKeysCodePane:
+  args: ["send-keys", "-t", "my_project:code.1", "./autorun-tests.sh", "C-m"]
+
+SendKeysShellOnAny:
+  args: ["send-keys", "-t", "my_project:shell", "~/project/scripts/bootstrap.sh", "C-m"]
+
+SendKeysShellOnWindow:
+  args: ["send-keys", "-t", "my_project:shell", "echo 'on_window'", "C-m"]
+
+SendKeysShell:
+  args: ["send-keys", "-t", "my_project:shell", "git status", "C-m"]
+
+SendKeysServerOnAny:
+  args: ["send-keys", "-t", "my_project:server", "~/project/scripts/bootstrap.sh", "C-m"]
+
+SendKeysServerOnWindow:
+  args: ["send-keys", "-t", "my_project:server", "echo 'on_window'", "C-m"]
+
+SendKeysServer:
+  args: ["send-keys", "-t", "my_project:server", "./run-dev-server.sh", "C-m"]
+
+SendKeysProdLogsOnAny:
+  args: ["send-keys", "-t", "my_project:prod_logs", "~/project/scripts/bootstrap.sh", "C-m"]
+
+SendKeysProdLogsOnWindow:
+  args: ["send-keys", "-t", "my_project:prod_logs", "echo 'on_window'", "C-m"]
+
+SendKeysProdLogsSSH:
+  args: ["send-keys", "-t", "my_project:prod_logs", "ssh user@host", "C-m"]
+
+SendKeysProdLogsCdLogs:
+  args: ["send-keys", "-t", "my_project:prod_logs", "cd /var/logs", "C-m"]
+
+SendKeysProdLogsTail:
+  args: ["send-keys", "-t", "my_project:prod_logs", "tail -f app.log", "C-m"]
+
+SelectWindowCode:
+  args: ["select-window", "-t", "my_project:code"]
+
+PaneBaseIndexOpt:
+  args: ["show-option", "-gqv", "pane-base-index"]
+  output: "0"
+
+SelectPaneCode:
+  args: ["select-pane", "-t", "my_project:code.0"]
+
+SwitchClient:
+  args: ["switch-client", "-t", "my_project"]
+
+AttachSession:
+  args: ["attach-session", "-t", "my_project"]
+
+CloseSession:
+  args: ["kill-session", "-t", "my_project"]

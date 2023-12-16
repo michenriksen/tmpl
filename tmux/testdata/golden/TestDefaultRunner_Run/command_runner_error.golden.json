@@ -1,0 +1,4 @@
+[
+  "time=0001-01-01T00:00:00.000Z level=DEBUG msg=\"command failed\" name=tmux args=[] output=\"test output\" dur=0s",
+  ""
+]
